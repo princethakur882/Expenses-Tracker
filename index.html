@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Expenses Tracker</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="main-heading"><h1>Expenses Tracker</h1></div>
+    <div class="main-container">
+      <div class="first-container">
+        <div class="first-upper">
+          <input
+            type="number"
+            class="f-u-input"
+            placeholder="Enter your Budget"
+          /><button type="button">Add</button><br />
+          <input
+            type="text"
+            class="f-u-input"
+            placeholder="Enter your Categories"
+          >
+        </input><button type="button">Add</button>
+          <br />
+          <hr class="hrline" />
+        </div>
+        <div class="first-lower">
+          <form>
+            <label for="amount">Amount:</label><br />
+            <input type="number" id="amount" name="amount" min="0" /><br />
+            <label for="category">Category:</label><br />
+            <select id="category" name="category">
+              <option value="option1">Select any category --</option>
+              <!-- <option value="option2">Food</option>
+              <option value="option2">Travell</option>
+              <option value="option2">Shopping</option>
+              <option value="option2">Recharge</option>
+              <option value="option3">Others...</option></select -->
+            ><br />
+            <label for="date">Date:</label><br />
+            <input type="date" id="date" name="date" /><br /><br />
+            <input type="submit" value="Add" />
+          </form>
+        </div>
+      </div>
+      <div class="second-container">
+        <div class="second-upper">
+          <label for="totalAmount">Total Amount:</label><br />
+          <input
+            type="number"
+            id="totalAmount"
+            name="totalAmount"
+            min="0"
+            readonly
+          /><br />
+          <label for="remainingAmount">Remaining Amount:</label><br />
+          <input
+            type="number"
+            id="remainingAmount"
+            name="remainingAmount"
+            min="0"
+            readonly
+          /><br />
+          <label for="expenseAmount">Expense Amount:</label><br />
+          <input
+            type="number"
+            id="expenseAmount"
+            name="expenseAmount"
+            min="0"
+            readonly
+          /><br />
+          <br />
+          <hr class="hrline" />
+        </div>
+        <div class="second-lower">
+          <table>
+            <tr>
+              <th>Amount</th>
+              <th>Category</th>
+              <th>Date</th>
+            </tr>
+            <!-- You can add rows of data here -->
+          </table>
+        </div>
+      </div>
+    </div>
+    <script src="script.js" async defer></script>
+  </body>
+</html>
