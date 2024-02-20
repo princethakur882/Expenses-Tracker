@@ -44,9 +44,14 @@ function submitExpense(event) {
     updateAmounts();
     updateExpenseTable();
     saveToLocalStorage();
+
+    document.querySelector("#amount").value = "";
+    document.querySelector("#category").value = "option1";
+    document.querySelector("#date").value = "";
   } else {
     alert("Please fill in all the fields correctly.");
   }
+  
 }
 
 function updateAmounts() {
@@ -130,3 +135,5 @@ function initialize() {
   updateCategorySelect();
   updateExpenseTable();
 }
+
+
