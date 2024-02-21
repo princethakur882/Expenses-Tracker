@@ -3,40 +3,43 @@ let totalExpense = 0;
 let categories = [];
 let expenses = [];
 
-document
-  .querySelector(".first-upper button")
-  .addEventListener("click", setBudget);
-
-document
-  .querySelector('.f-u-input[type="text"] + button')
-  .addEventListener("click", addCategory);
-
-document
-  .querySelector(".first-lower form")
-  .addEventListener("submit", submitExpense);
+document.querySelector(".first-upper button").addEventListener("click", setBudget);
+document.querySelector('.f-u-input[type="text"] + button').addEventListener("click", addCategory);
+document.querySelector(".first-lower form").addEventListener("submit", submitExpense);
 
 window.onload = initialize;
 
 function setBudget() {
-  budget =
-    parseFloat(document.querySelector('.f-u-input[type="number"]').value) || 0;
+  const budgetInput = document.querySelector('.f-u-input[type="number"]');
+  budget = parseFloat(budgetInput.value) || 0;
+  budgetInput.value = ""; // Clear the input field
   updateAmounts();
   saveToLocalStorage();
 }
 
 function addCategory() {
-  let categoryInput = document.querySelector('.f-u-input[type="text"]');
-  categories.push(categoryInput.value);
-  categoryInput.value = "";
-  updateCategorySelect();
-  saveToLocalStorage();
+  const categoryInput = document.querySelector('.f-u-input[type="text"]');
+  const newCategory = categoryInput.value.trim();
+  
+  if (newCategory !== "") {
+    categories.push(newCategory);
+    categoryInput.value = ""; // Clear the input field
+    updateCategorySelect();
+    saveToLocalStorage();
+  } else {
+    alert("Please enter a valid category.");
+  }
 }
 
 function submitExpense(event) {
   event.preventDefault();
-  let amount = parseFloat(document.querySelector("#amount").value) || 0;
-  let category = document.querySelector("#category").value;
-  let date = document.querySelector("#date").value;
+  const amountInput = document.querySelector("#amount");
+  const categorySelect = document.querySelector("#category");
+  const dateInput = document.querySelector("#date");
+
+  const amount = parseFloat(amountInput.value) || 0;
+  const category = categorySelect.value;
+  const date = dateInput.value;
 
   if (amount > 0 && category !== "option1" && date !== "") {
     expenses.push({ amount, category, date });
@@ -45,13 +48,12 @@ function submitExpense(event) {
     updateExpenseTable();
     saveToLocalStorage();
 
-    document.querySelector("#amount").value = "";
-    document.querySelector("#category").value = "option1";
-    document.querySelector("#date").value = "";
+    amountInput.value = "";
+    categorySelect.value = "option1";
+    dateInput.value = "";
   } else {
     alert("Please fill in all the fields correctly.");
   }
-  
 }
 
 function updateAmounts() {
@@ -61,7 +63,7 @@ function updateAmounts() {
 }
 
 function updateCategorySelect() {
-  let select = document.querySelector("#category");
+  const select = document.querySelector("#category");
   select.innerHTML = '<option value="option1">Select any category --</option>';
   categories.forEach(function (category) {
     select.innerHTML += `<option>${category}</option>`;
@@ -69,7 +71,7 @@ function updateCategorySelect() {
 }
 
 function updateExpenseTable() {
-  let table = document.querySelector("table");
+  const table = document.querySelector("table");
   table.innerHTML = `
     <tr>
       <th>Amount</th>
@@ -94,13 +96,20 @@ function updateExpenseTable() {
 }
 
 function editExpense(index) {
-  let editedAmount = prompt("Enter the new amount:", expenses[index].amount);
+  const editedAmount = prompt("Enter the new amount:", expenses[index].amount);
   if (editedAmount !== null) {
-    expenses[index].amount = parseFloat(editedAmount) || 0;
-    totalExpense = calculateTotalExpense();
-    updateAmounts();
-    updateExpenseTable();
-    saveToLocalStorage();
+    let editedCategory = prompt("Enter the new category:", expenses[index].category);
+
+    if (editedCategory !== null && editedCategory.trim() !== "") {
+      expenses[index].amount = parseFloat(editedAmount) || 0;
+      expenses[index].category = editedCategory.trim();
+      totalExpense = calculateTotalExpense();
+      updateAmounts();
+      updateExpenseTable();
+      saveToLocalStorage();
+    } else {
+      alert("Category cannot be empty. Please enter a valid category.");
+    }
   }
 }
 
@@ -135,5 +144,3 @@ function initialize() {
   updateCategorySelect();
   updateExpenseTable();
 }
-
-
