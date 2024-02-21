@@ -6,13 +6,14 @@ let expenses = [];
 document.querySelector(".first-upper button").addEventListener("click", setBudget);
 document.querySelector('.f-u-input[type="text"] + button').addEventListener("click", addCategory);
 document.querySelector(".first-lower form").addEventListener("submit", submitExpense);
+document.querySelector("#search").addEventListener("input", handleSearch);
 
 window.onload = initialize;
 
 function setBudget() {
   const budgetInput = document.querySelector('.f-u-input[type="number"]');
   budget = parseFloat(budgetInput.value) || 0;
-  budgetInput.value = ""; // Clear the input field
+  budgetInput.value = ""; 
   updateAmounts();
   saveToLocalStorage();
 }
@@ -23,7 +24,7 @@ function addCategory() {
   
   if (newCategory !== "") {
     categories.push(newCategory);
-    categoryInput.value = ""; // Clear the input field
+    categoryInput.value = ""; 
     updateCategorySelect();
     saveToLocalStorage();
   } else {
@@ -33,6 +34,12 @@ function addCategory() {
 
 function submitExpense(event) {
   event.preventDefault();
+
+  if (budget <= 0) {
+    alert("Please set your budget before adding expenses.");
+    return;
+  }
+  
   const amountInput = document.querySelector("#amount");
   const categorySelect = document.querySelector("#category");
   const dateInput = document.querySelector("#date");
@@ -70,7 +77,7 @@ function updateCategorySelect() {
   });
 }
 
-function updateExpenseTable() {
+function updateExpenseTable(filteredExpenses = expenses) {
   const table = document.querySelector("table");
   table.innerHTML = `
     <tr>
@@ -80,7 +87,7 @@ function updateExpenseTable() {
       <th>Action</th>
     </tr>
   `;
-  expenses.forEach(function (expense, index) {
+  filteredExpenses.forEach(function (expense, index) {
     table.innerHTML += `
       <tr>
         <td>${expense.amount}</td>
@@ -126,6 +133,18 @@ function deleteExpense(index) {
 function calculateTotalExpense() {
   return expenses.reduce((total, expense) => total + expense.amount, 0);
 }
+
+
+
+function handleSearch() {
+  const searchTerm = document.querySelector("#search").value.toLowerCase();
+  const filteredExpenses = expenses.filter((expense) =>
+    expense.category.toLowerCase().includes(searchTerm)
+  );
+
+  updateExpenseTable(filteredExpenses);
+}
+
 
 function saveToLocalStorage() {
   localStorage.setItem("budget", budget);

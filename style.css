@@ -61,6 +61,17 @@ input.f-u-input {
   margin: 20px 0;
 }
 
+#search{
+  border: 1px solid rgba(128, 128, 128, 0.183);
+  border-radius: 3px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 input[type="number"],
 input[type="date"],
 select {
