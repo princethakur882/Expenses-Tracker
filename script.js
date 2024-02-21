@@ -3,15 +3,10 @@ let totalExpense = 0;
 let categories = [];
 let expenses = [];
 
-document
-  .querySelector(".first-upper button")
-  .addEventListener("click", setBudget);
-document
-  .querySelector('.f-u-input[type="text"] + button')
-  .addEventListener("click", addCategory);
-document
-  .querySelector(".first-lower form")
-  .addEventListener("submit", submitExpense);
+document.querySelector(".first-upper button").addEventListener("click", setBudget);
+document.querySelector('.f-u-input[type="text"] + button').addEventListener("click", addCategory);
+document.querySelector(".remove-category").addEventListener("click", removeCategory);
+document.querySelector(".first-lower form").addEventListener("submit", submitExpense);
 document.querySelector("#search").addEventListener("input", handleSearch);
 
 window.onload = initialize;
@@ -26,10 +21,9 @@ function setBudget() {
     updateAmounts();
     saveToLocalStorage();
   } else {
-    alert("Enter valid amount")
-  } 
+    alert("Enter valid amount");
+  }
 }
-
 
 function addCategory() {
   const categoryInput = document.querySelector('.f-u-input[type="text"]');
@@ -42,6 +36,25 @@ function addCategory() {
     saveToLocalStorage();
   } else {
     alert("Please enter a valid category.");
+  }
+}
+
+function removeCategory() {
+  const removeCategoryInput = document.querySelector('.f-u-input[type="text"]');
+  const removedCategory = removeCategoryInput.value.trim();
+
+  if (removedCategory !== "") {
+    const index = categories.indexOf(removedCategory);
+    if (index !== -1) {
+      categories.splice(index, 1);
+      removeCategoryInput.value = "";
+      updateCategorySelect();
+      saveToLocalStorage();
+    } else {
+      alert("Category not found. Please enter a valid category to remove.");
+    }
+  } else {
+    alert("Please enter a valid category to remove.");
   }
 }
 
@@ -118,7 +131,10 @@ function updateExpenseTable(filteredExpenses = expenses) {
 function editExpense(index) {
   const editedAmount = prompt("Enter the new amount:", expenses[index].amount);
   if (editedAmount !== null) {
-    let editedCategory = prompt("Enter the new category:",expenses[index].category);
+    let editedCategory = prompt(
+      "Enter the new category:",
+      expenses[index].category
+    );
 
     if (editedCategory !== null && editedCategory.trim() !== "") {
       expenses[index].amount = parseFloat(editedAmount) || 0;
@@ -164,6 +180,7 @@ function saveToLocalStorage() {
   localStorage.setItem("totalExpense", totalExpense);
   localStorage.setItem("categories", JSON.stringify(categories));
   localStorage.setItem("expenses", JSON.stringify(expenses));
+  
 }
 
 function initialize() {
