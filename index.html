@@ -19,17 +19,7 @@
             class="f-u-input"
             placeholder="Enter your Budget"
             required
-          /><button type="button">Add</button><br /><br />
-          <label for="Category">Enter New Category:</label><br />
-          <input
-            type="text"
-            class="f-u-input"
-            id="setAmount"
-            placeholder="Enter your Categories"
-          >
-        </input><button type="button">Add</button>
-        <button type="button" class="remove-category">Remove</button>
-          <br />
+          /><button type="button">Add Budget</button><br /><br />
           <hr class="hrline" />
         </div>
         <div class="first-lower">
@@ -39,16 +29,29 @@
         
             <label for="amount">Amount:</label><br />
             <input type="number" id="amount" name="amount" required /><br /><br />
-        
             <label for="category">Category:</label><br />
+            <div class="catBtnWrap">
             <select id="category" name="category">
                 <option value="option">Select any category --</option>
                 <option value="option">Food</option>
                 <option value="option">Rent</option>
                 <option value="option">Shopping</option>
-            </select><br />
-        
-            <input type="submit" value="Add" />
+              </select><br />
+              <button type="button" id="Otherscat">Add Category</button>
+            </div>
+            <div class="selectcate">
+            <br />
+          <input
+            type="text"
+            class="f-u-input"
+            id="setAmount"
+            placeholder="Enter your Categories"
+          >
+        </input><button type="button">Add</button>
+        <button type="button" class="remove-category">Remove</button>
+          <br />
+        </div>
+            <input type="submit" value="Add Expense" />
             <button id="updateBtn">Update</button>
         </form>
         
@@ -99,6 +102,7 @@
         </div>
       </div>
     </div>
+    <button id="clearData">Clear All Data</button>
     <script src="script.js" async defer></script>
   </body>
 </html>

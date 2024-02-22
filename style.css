@@ -74,7 +74,7 @@ input.f-u-input {
 input[type="number"],
 input[type="date"],
 select {
-  width: 80%;
+  width: 74%;
   padding: 10px;
   margin: 10px 0;
   border-radius: 5px;
@@ -96,7 +96,7 @@ input[type="submit"] {
 }
 
 #category {
-  width: 83%;
+  width: 77%;
 }
 
 button:hover,
@@ -132,4 +132,18 @@ th {
 .second-container input[type="number"] {
   border: none;
   cursor: default;
+}
+
+
+.selectcate{
+  display: flex;
+  align-items: center;
+}
+
+.selectcate label{
+  font-size: 20px;
+}
+
+.catBtnWrap{
+  display: flex;
 }

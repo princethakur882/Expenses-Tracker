@@ -19,9 +19,13 @@ document.querySelector("#search").addEventListener("input", handleSearch);
 
 window.onload = initialize;
 
+const selectDiv = document.querySelector(".selectcate");
+const otherOpt = document.getElementById("Otherscat");
 const addBtn = document.querySelector('.first-lower form input[type="submit"]');
 const updateBtn = document.getElementById("updateBtn");
+
 updateBtn.style.display = "none";
+selectDiv.style.display = "none";
 
 
 function setBudget() {
@@ -113,6 +117,8 @@ function updateCategorySelect() {
   select.innerHTML = '<option value="option">Select any category --</option>';
   categories.forEach(function (category) {
     select.innerHTML += `<option>${category}</option>`;
+
+    selectDiv.style.display = "none";
   });
 }
 
@@ -160,6 +166,15 @@ function editHandle(index) {
   updateBtn.style.display = "block";
 }
 
+otherOpt.addEventListener("click", function(e){
+  e.preventDefault();
+
+  otherOpt.style.display = "none";
+  selectDiv.style.display = "block";
+
+
+});
+
 
 updateBtn.addEventListener("click", function (e) {
   e.preventDefault();
@@ -188,36 +203,13 @@ updateBtn.addEventListener("click", function (e) {
   
   addBtn.style.display = "block";
   updateBtn.style.display = "none";
-
+  otherOpt.style.display = "block";
   
   updateAmounts();
   updateExpenseTable(index);
   saveToLocalStorage();
 });
 
-
-// ...
-
-// function editExpense(index) {
-//   const editedAmount = prompt("Enter the new amount:", expenses[index].amount);
-//   if (editedAmount !== null) {
-//     let editedCategory = prompt(
-//       "Enter the new category:",
-//       expenses[index].category
-//     );
-
-//     if (editedCategory !== null && editedCategory.trim() !== "") {
-//       expenses[index].amount = parseFloat(editedAmount) || 0;
-//       expenses[index].category = editedCategory;
-//       totalExpense = calculateTotalExpense();
-//       updateAmounts();
-//       updateExpenseTable();
-//       saveToLocalStorage();
-//     } else {
-//       alert("Category cannot be empty. Please enter a valid category.");
-//     }
-//   }
-// }
 
 function deleteExpense(index) {
   if (confirm("Are you sure you want to delete this expense?")) {
@@ -266,3 +258,11 @@ function initialize() {
   updateCategorySelect();
   updateExpenseTable();
 }
+
+document.querySelector("#clearData").addEventListener("click", clearLocalStorage);
+
+function clearLocalStorage() {
+  localStorage.clear();
+  location.reload();
+}
+
