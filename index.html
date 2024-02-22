@@ -13,11 +13,14 @@
     <div class="main-container">
       <div class="first-container">
         <div class="first-upper">
+          <label for="Budget">Enter Your Budget:</label><br />
           <input
             type="number"
             class="f-u-input"
             placeholder="Enter your Budget"
-          /><button type="button">Add</button><br />
+            required
+          /><button type="button">Add</button><br /><br />
+          <label for="Category">Enter New Category:</label><br />
           <input
             type="text"
             class="f-u-input"
@@ -31,21 +34,24 @@
         </div>
         <div class="first-lower">
           <form>
+            <label for="date">Date:</label><br />
+            <input type="date" id="date" name="date" required /><br /><br />
+        
             <label for="amount">Amount:</label><br />
-            <input type="number" id="amount" name="amount" min="0" /><br />
+            <input type="number" id="amount" name="amount" required /><br /><br />
+        
             <label for="category">Category:</label><br />
             <select id="category" name="category">
-              <option value="option1">Select any category --</option>
-              <!-- <option value="option2">Food</option>
-              <option value="option2">Travell</option>
-              <option value="option2">Shopping</option>
-              <option value="option2">Recharge</option>
-              <option value="option3">Others...</option></select -->
-            ><br />
-            <label for="date">Date:</label><br />
-            <input type="date" id="date" name="date" /><br /><br />
+                <option value="option">Select any category --</option>
+                <option value="option">Food</option>
+                <option value="option">Rent</option>
+                <option value="option">Shopping</option>
+            </select><br />
+        
             <input type="submit" value="Add" />
-          </form>
+            <button id="updateBtn">Update</button>
+        </form>
+        
         </div>
       </div>
       <div class="second-container">
