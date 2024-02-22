@@ -19,7 +19,7 @@
             class="f-u-input"
             placeholder="Enter your Budget"
             required
-          /><button type="button">Add Budget</button><br /><br />
+          /><button type="button" id="main-budget">Add Budget</button><br /><br />
           <hr class="hrline" />
         </div>
         <div class="first-lower">
@@ -87,6 +87,9 @@
           <hr class="hrline" />
         </div>
         <div class="second-lower">
+          <div id="expense-list">
+            <h3>Your Expenses List</h3>
+          </div>
           <div class="search-container">
             <label>Search: &nbsp;</label>
             <input type="text" id="search" placeholder="search"><br /><br />
@@ -102,7 +105,9 @@
         </div>
       </div>
     </div>
+    <div class="cleardata">
     <button id="clearData">Clear All Data</button>
+  </div>
     <script src="script.js" async defer></script>
   </body>
 </html>

@@ -87,7 +87,7 @@ button,
 input[type="submit"] {
   padding: 10px 20px;
   margin: 10px 10px;
-  background-color: #3c97f8;
+  background-color: #0056b3;
   color: white;
   border: none;
   border-radius: 5px;
@@ -101,7 +101,7 @@ input[type="submit"] {
 
 button:hover,
 input[type="submit"]:hover {
-  background-color: #0056b3;
+  background-color: #3c97f8;
 }
 
 table {
@@ -146,4 +146,23 @@ th {
 
 .catBtnWrap{
   display: flex;
+}
+#clearData{
+  background-color: red;
+}
+
+.cleardata{
+  text-align: center;
+}
+
+#main-budget{
+  background-color: green;
+}
+#main-budget:hover{
+  background-color: rgba(66, 158, 66, 0.906);
+}
+
+#expense-list{
+  text-align: center;
+  color: #0056b3;
 }

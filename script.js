@@ -16,6 +16,7 @@ document
   .querySelector(".first-lower form")
   .addEventListener("submit", submitExpense);
 document.querySelector("#search").addEventListener("input", handleSearch);
+document.querySelector("#clearData").addEventListener("click", clearLocalStorage);
 
 window.onload = initialize;
 
@@ -23,9 +24,12 @@ const selectDiv = document.querySelector(".selectcate");
 const otherOpt = document.getElementById("Otherscat");
 const addBtn = document.querySelector('.first-lower form input[type="submit"]');
 const updateBtn = document.getElementById("updateBtn");
+const removeBtn = document.querySelector(".remove-category")
+
 
 updateBtn.style.display = "none";
 selectDiv.style.display = "none";
+removeBtn.style.display = "none";
 
 
 function setBudget() {
@@ -54,6 +58,7 @@ function addCategory() {
   } else {
     alert("Please enter a valid category.");
   }
+  otherOpt.style.display = "block";
 }
 
 function removeCategory() {
@@ -259,7 +264,6 @@ function initialize() {
   updateExpenseTable();
 }
 
-document.querySelector("#clearData").addEventListener("click", clearLocalStorage);
 
 function clearLocalStorage() {
   localStorage.clear();
