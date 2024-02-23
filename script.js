@@ -1,43 +1,37 @@
+// Initialize variables
 let budget = 0;
 let totalExpense = 0;
 let categories = [];
 let expenses = [];
 
-document
-  .querySelector(".first-upper button")
-  .addEventListener("click", setBudget);
-document
-  .querySelector('.f-u-input[type="text"] + button')
-  .addEventListener("click", addCategory);
-document
-  .querySelector(".remove-category")
-  .addEventListener("click", removeCategory);
-document
-  .querySelector(".first-lower form")
-  .addEventListener("submit", submitExpense);
+// Event listeners
+document.querySelector(".first-upper button").addEventListener("click", setBudget);
+document.querySelector('.f-u-input[type="text"] + button').addEventListener("click", addCategory);
+document.querySelector(".remove-category").addEventListener("click", removeCategory);
+document.querySelector(".first-lower form").addEventListener("submit", submitExpense);
 document.querySelector("#search").addEventListener("input", handleSearch);
 document.querySelector("#clearData").addEventListener("click", clearLocalStorage);
 
 window.onload = initialize;
 
+// DOM elements
 const selectDiv = document.querySelector(".selectcate");
 const otherOpt = document.getElementById("Otherscat");
 const addBtn = document.querySelector('.first-lower form input[type="submit"]');
 const updateBtn = document.getElementById("updateBtn");
-const removeBtn = document.querySelector(".remove-category")
-
+const removeBtn = document.querySelector(".remove-category");
 
 updateBtn.style.display = "none";
 selectDiv.style.display = "none";
 removeBtn.style.display = "none";
 
-
+// Function to set budget
 function setBudget() {
   const budgetInput = document.querySelector('.f-u-input[type="number"]');
-  const inputValue = budgetInput.value.trim();
+  const inputValue = parseFloat(budgetInput.value.trim()) || 0;
 
-  if (inputValue !== "" && parseFloat(inputValue) >= 500) {
-    budget = parseFloat(inputValue) || 0;
+  if (inputValue >= 500) {
+    budget = inputValue;
     budgetInput.value = "";
     updateAmounts();
     saveToLocalStorage();
@@ -46,6 +40,7 @@ function setBudget() {
   }
 }
 
+// Function to add a category
 function addCategory() {
   const categoryInput = document.querySelector('.f-u-input[type="text"]');
   const newCategory = categoryInput.value.trim();
@@ -61,6 +56,7 @@ function addCategory() {
   otherOpt.style.display = "block";
 }
 
+// Function to remove a category
 function removeCategory() {
   const removeCategoryInput = document.querySelector('.f-u-input[type="text"]');
   const removedCategory = removeCategoryInput.value.trim();
@@ -80,6 +76,7 @@ function removeCategory() {
   }
 }
 
+// Function to submit an expense
 function submitExpense(event) {
   event.preventDefault();
 
@@ -103,6 +100,7 @@ function submitExpense(event) {
     updateExpenseTable();
     saveToLocalStorage();
 
+    // Clear input fields
     amountInput.value = "";
     categorySelect.value = "option";
     dateInput.value = "";
@@ -111,22 +109,24 @@ function submitExpense(event) {
   }
 }
 
+// Function to update amounts in the UI
 function updateAmounts() {
   document.querySelector("#totalAmount").value = budget;
   document.querySelector("#remainingAmount").value = budget - totalExpense;
   document.querySelector("#expenseAmount").value = totalExpense;
 }
 
+// Function to update the category dropdown
 function updateCategorySelect() {
   const select = document.querySelector("#category");
   select.innerHTML = '<option value="option">Select any category --</option>';
   categories.forEach(function (category) {
     select.innerHTML += `<option>${category}</option>`;
-
-    selectDiv.style.display = "none";
   });
+  selectDiv.style.display = "none";
 }
 
+// Function to update the expense table
 function updateExpenseTable(filteredExpenses = expenses) {
   const table = document.querySelector("table");
   table.innerHTML = `
@@ -152,9 +152,9 @@ function updateExpenseTable(filteredExpenses = expenses) {
   });
 }
 
-
+// Function to handle edit operation
 function editHandle(index) {
-  const row = document.querySelectorAll("table tr")[index + 1]; 
+  const row = document.querySelectorAll("table tr")[index + 1];
   row.classList.add("editing");
 
   const cells = row.querySelectorAll("td");
@@ -166,28 +166,28 @@ function editHandle(index) {
   document.querySelector("#amount").value = spendAmount;
   document.querySelector("#category").value = myCategory;
 
- 
   addBtn.style.display = "none";
   updateBtn.style.display = "block";
 }
 
-otherOpt.addEventListener("click", function(e){
+// Event listener for "Others" category
+otherOpt.addEventListener("click", function (e) {
   e.preventDefault();
-
   otherOpt.style.display = "none";
   selectDiv.style.display = "block";
-
-
+  updateAmounts();
 });
 
-
+// Event listener for update button
 updateBtn.addEventListener("click", function (e) {
   e.preventDefault();
 
+  // Retrieve values from the form
   const myDate = document.querySelector("#date").value;
-  const spendAmount = parseFloat(document.querySelector("#amount").value);
+  const spendAmount = parseFloat(document.querySelector("#amount").value) || 0;
   const myCategory = document.querySelector("#category").value;
 
+  // Find the row being edited
   const row = document.querySelector("table tr.editing");
 
   if (!row) {
@@ -195,27 +195,37 @@ updateBtn.addEventListener("click", function (e) {
     return;
   }
 
+  // Update the row with new values
   const cells = row.querySelectorAll("td");
   cells[0].textContent = myDate;
   cells[1].textContent = spendAmount;
   cells[2].textContent = myCategory;
 
+  // Clear form fields
   document.querySelector("#date").value = "";
   document.querySelector("#amount").value = "";
   document.querySelector("#category").value = "";
 
+  // Remove editing class
   row.classList.remove("editing");
-  
+
+  // Toggle button visibility
   addBtn.style.display = "block";
   updateBtn.style.display = "none";
   otherOpt.style.display = "block";
-  
+
+  // Update totalExpense and expenses array
+  totalExpense = totalExpense - parseFloat(cells[1].textContent) + spendAmount;
+  expenses[row.rowIndex - 1] = { amount: spendAmount, category: myCategory, date: myDate };
+
+  // Recalculate totalExpense and update UI
+  totalExpense = calculateTotalExpense();
+  updateExpenseTable();
   updateAmounts();
-  updateExpenseTable(index);
   saveToLocalStorage();
 });
 
-
+// Function to delete an expense
 function deleteExpense(index) {
   if (confirm("Are you sure you want to delete this expense?")) {
     totalExpense -= expenses[index].amount;
@@ -226,10 +236,12 @@ function deleteExpense(index) {
   }
 }
 
+// Function to calculate total expense
 function calculateTotalExpense() {
   return expenses.reduce((total, expense) => total + expense.amount, 0);
 }
 
+// Function to handle search input
 function handleSearch() {
   const searchTerm = document.querySelector("#search").value.toLowerCase();
   const filteredExpenses = expenses.filter(
@@ -238,25 +250,23 @@ function handleSearch() {
       expense.amount.toString().includes(searchTerm) ||
       expense.date.toLowerCase().includes(searchTerm)
   );
-
   updateExpenseTable(filteredExpenses);
 }
 
+// Function to save data to local storage
 function saveToLocalStorage() {
   localStorage.setItem("budget", budget);
   localStorage.setItem("totalExpense", totalExpense);
   localStorage.setItem("categories", JSON.stringify(categories));
   localStorage.setItem("expenses", JSON.stringify(expenses));
+  updateAmounts();
 }
 
+// Function to initialize data from local storage
 function initialize() {
   budget = parseFloat(localStorage.getItem("budget")) || 0;
   totalExpense = parseFloat(localStorage.getItem("totalExpense")) || 0;
-  categories = JSON.parse(localStorage.getItem("categories")) || [
-    "Food",
-    "Rent",
-    "Shopping",
-  ];
+  categories = JSON.parse(localStorage.getItem("categories")) || ["Food", "Rent", "Shopping"];
   expenses = JSON.parse(localStorage.getItem("expenses")) || [];
 
   updateAmounts();
@@ -264,9 +274,8 @@ function initialize() {
   updateExpenseTable();
 }
 
-
+// Function to clear local storage
 function clearLocalStorage() {
   localStorage.clear();
   location.reload();
 }
-
