@@ -5,12 +5,22 @@ let categories = [];
 let expenses = [];
 
 // Event listeners
-document.querySelector(".first-upper button").addEventListener("click", setBudget);
-document.querySelector('.f-u-input[type="text"] + button').addEventListener("click", addCategory);
-document.querySelector(".remove-category").addEventListener("click", removeCategory);
-document.querySelector(".first-lower form").addEventListener("submit", submitExpense);
+document
+  .querySelector(".first-upper button")
+  .addEventListener("click", setBudget);
+document
+  .querySelector('.f-u-input[type="text"] + button')
+  .addEventListener("click", addCategory);
+document
+  .querySelector(".remove-category")
+  .addEventListener("click", removeCategory);
+document
+  .querySelector(".first-lower form")
+  .addEventListener("submit", submitExpense);
 document.querySelector("#search").addEventListener("input", handleSearch);
-document.querySelector("#clearData").addEventListener("click", clearLocalStorage);
+document
+  .querySelector("#clearData")
+  .addEventListener("click", clearLocalStorage);
 
 window.onload = initialize;
 
@@ -94,6 +104,10 @@ function submitExpense(event) {
   const date = dateInput.value;
 
   if (amount > 0 && category !== "option" && date !== "") {
+    if (totalExpense + amount > budget) {
+      alert("Expense exceeds the budget. Please enter a valid amount.");
+      return;
+    }
     expenses.push({ amount, category, date });
     totalExpense = calculateTotalExpense();
     updateAmounts();
@@ -216,7 +230,11 @@ updateBtn.addEventListener("click", function (e) {
 
   // Update totalExpense and expenses array
   totalExpense = totalExpense - parseFloat(cells[1].textContent) + spendAmount;
-  expenses[row.rowIndex - 1] = { amount: spendAmount, category: myCategory, date: myDate };
+  expenses[row.rowIndex - 1] = {
+    amount: spendAmount,
+    category: myCategory,
+    date: myDate,
+  };
 
   // Recalculate totalExpense and update UI
   totalExpense = calculateTotalExpense();
@@ -266,7 +284,11 @@ function saveToLocalStorage() {
 function initialize() {
   budget = parseFloat(localStorage.getItem("budget")) || 0;
   totalExpense = parseFloat(localStorage.getItem("totalExpense")) || 0;
-  categories = JSON.parse(localStorage.getItem("categories")) || ["Food", "Rent", "Shopping"];
+  categories = JSON.parse(localStorage.getItem("categories")) || [
+    "Food",
+    "Rent",
+    "Shopping",
+  ];
   expenses = JSON.parse(localStorage.getItem("expenses")) || [];
 
   updateAmounts();

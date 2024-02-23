@@ -1,113 +1,91 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Expenses Tracker</title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="main-heading"><h1>Expenses Tracker</h1></div>
-    <div class="main-container">
-      <div class="first-container">
-        <div class="first-upper">
-          <label for="Budget">Enter Your Budget:</label><br />
-          <input
-            type="number"
-            class="f-u-input"
-            placeholder="Enter your Budget"
-            required
-          /><button type="button" id="main-budget">Add Budget</button><br /><br />
-          <hr class="hrline" />
-        </div>
-        <div class="first-lower">
-          <form>
-            <label for="date">Date:</label><br />
-            <input type="date" id="date" name="date" required /><br /><br />
-        
-            <label for="amount">Amount:</label><br />
-            <input type="number" id="amount" name="amount" required /><br /><br />
-            <label for="category">Category:</label><br />
-            <div class="catBtnWrap">
-            <select id="category" name="category">
-                <option value="option">Select any category --</option>
-                <option value="option">Food</option>
-                <option value="option">Rent</option>
-                <option value="option">Shopping</option>
-              </select><br />
-              <button type="button" id="Otherscat">Add Category</button>
-            </div>
-            <div class="selectcate">
-            <br />
-          <input
-            type="text"
-            class="f-u-input"
-            id="setAmount"
-            placeholder="Enter your Categories"
-          >
-        </input><button type="button">Add</button>
-        <button type="button" class="remove-category">Remove</button>
-          <br />
-        </div>
-            <input type="submit" value="Add Expense" />
-            <button id="updateBtn">Update</button>
-        </form>
-        
-        </div>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Expenses Tracker</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="main-heading">
+    <h1>Expenses Tracker</h1>
+  </div>
+  <div class="main-container">
+    <div class="first-container">
+      <div class="first-upper">
+        <label for="Budget">Enter Your Budget:</label><br />
+        <input type="number" class="f-u-input" placeholder="Enter your Budget" required /><button type="button"
+          id="main-budget">Add Budget</button><br /><br />
+        <hr class="hrline" />
       </div>
-      <div class="second-container">
-        <div class="second-upper">
-          <label for="totalAmount">Total Amount:</label><br />
-          <input
-            type="number"
-            id="totalAmount"
-            name="totalAmount"
-            min="0"
-            readonly
-          /><br />
-          <label for="remainingAmount">Remaining Amount:</label><br />
-          <input
-            type="number"
-            id="remainingAmount"
-            name="remainingAmount"
-            min="0"
-            readonly
-          /><br />
-          <label for="expenseAmount">Expense Amount:</label><br />
-          <input
-            type="number"
-            id="expenseAmount"
-            name="expenseAmount"
-            min="0"
-            readonly
-          /><br />
-          <br />
-          <hr class="hrline" />
-        </div>
-        <div class="second-lower">
-          <div id="expense-list">
-            <h3>Your Expenses List</h3>
+      <div class="first-lower">
+        <form>
+          <label for="date">Date:</label><br />
+          <input type="date" id="date" name="date" required /><br /><br />
+
+          <label for="amount">Amount:</label><br />
+          <input type="number" id="amount" name="amount" required /><br /><br />
+          <label for="category">Category:</label><br />
+          <div class="catBtnWrap">
+            <select id="category" name="category">
+              <option value="option">Select any category --</option>
+              <option value="option">Food</option>
+              <option value="option">Rent</option>
+              <option value="option">Shopping</option>
+            </select><br />
+            <button type="button" id="Otherscat">Add Category</button>
           </div>
-          <div class="search-container">
-            <label>Search: &nbsp;</label>
-            <input type="text" id="search" placeholder="search"><br /><br />
+          <div class="selectcate">
+            <br />
+            <input type="text" class="f-u-input" id="setAmount" placeholder="Enter your Categories">
+            </input><button type="button">Add</button>
+            <button type="button" class="remove-category">Remove</button>
+            <br />
           </div>
-          <table>
-            <tr>
-              <th>Amount</th>
-              <th>Category</th>
-              <th>Date</th>
-            </tr>
-            <!--  add rows of data here -->
-          </table>
-        </div>
+          <input type="submit" value="Add Expense" />
+          <button id="updateBtn">Update</button>
+        </form>
+
       </div>
     </div>
-    <div class="cleardata">
+    <div class="second-container">
+      <div class="second-upper">
+        <label for="totalAmount">Total Amount:</label><br />
+        <input type="number" id="totalAmount" name="totalAmount" min="0" readonly /><br />
+        <label for="remainingAmount">Remaining Amount:</label><br />
+        <input type="number" id="remainingAmount" name="remainingAmount" min="0" readonly /><br />
+        <label for="expenseAmount">Expense Amount:</label><br />
+        <input type="number" id="expenseAmount" name="expenseAmount" min="0" readonly /><br />
+        <br />
+        <hr class="hrline" />
+      </div>
+      <div class="second-lower">
+        <div id="expense-list">
+          <h3>Your Expenses List</h3>
+        </div>
+        <div class="search-container">
+          <label>Search: &nbsp;</label>
+          <input type="text" id="search" placeholder="search"><br /><br />
+        </div>
+        <table>
+          <tr>
+            <th>Amount</th>
+            <th>Category</th>
+            <th>Date</th>
+          </tr>
+          <!--  add rows of data here -->
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="cleardata">
     <button id="clearData">Clear All Data</button>
   </div>
-    <script src="script.js" async defer></script>
-  </body>
+  <script src="script.js" async defer></script>
+</body>
+
 </html>
