@@ -56,6 +56,13 @@ function addCategory() {
   const newCategory = categoryInput.value.trim();
 
   if (newCategory !== "") {
+    if (categories.includes(newCategory)) {
+      alert("Category already exists.");
+      return;
+    }
+
+    otherOpt.style.display = "block";
+    
     categories.push(newCategory);
     categoryInput.value = "";
     updateCategorySelect();
@@ -65,6 +72,7 @@ function addCategory() {
   }
   otherOpt.style.display = "block";
 }
+
 
 // Function to remove a category
 function removeCategory() {
@@ -201,7 +209,7 @@ updateBtn.addEventListener("click", function (e) {
   const spendAmount = parseFloat(document.querySelector("#amount").value) || 0;
   const myCategory = document.querySelector("#category").value;
 
-  // Find the row being edited
+  
   const row = document.querySelector("table tr.editing");
 
   if (!row) {
@@ -209,21 +217,21 @@ updateBtn.addEventListener("click", function (e) {
     return;
   }
 
-  // Update the row with new values
+  
   const cells = row.querySelectorAll("td");
   cells[0].textContent = myDate;
   cells[1].textContent = spendAmount;
   cells[2].textContent = myCategory;
 
-  // Clear form fields
+  
   document.querySelector("#date").value = "";
   document.querySelector("#amount").value = "";
   document.querySelector("#category").value = "";
 
-  // Remove editing class
+  
   row.classList.remove("editing");
 
-  // Toggle button visibility
+  
   addBtn.style.display = "block";
   updateBtn.style.display = "none";
   otherOpt.style.display = "block";
@@ -236,12 +244,19 @@ updateBtn.addEventListener("click", function (e) {
     date: myDate,
   };
 
-  // Recalculate totalExpense and update UI
   totalExpense = calculateTotalExpense();
+  if (totalExpense > budget) {
+    alert("Expense exceeds the budget. Please enter a valid amount.");
+    return;
+  }
+
+  // Recalculate totalExpense and update UI
+  // totalExpense = calculateTotalExpense();
   updateExpenseTable();
   updateAmounts();
   saveToLocalStorage();
 });
+
 
 // Function to delete an expense
 function deleteExpense(index) {
