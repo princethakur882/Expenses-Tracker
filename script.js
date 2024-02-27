@@ -45,6 +45,7 @@ function setBudget() {
     budgetInput.value = "";
     updateAmounts();
     saveToLocalStorage();
+    warning();
   } else {
     alert("Amount should be greater than or equal to 500");
   }
@@ -60,9 +61,7 @@ function addCategory() {
       alert("Category already exists.");
       return;
     }
-
     otherOpt.style.display = "block";
-    
     categories.push(newCategory);
     categoryInput.value = "";
     updateCategorySelect();
@@ -72,7 +71,6 @@ function addCategory() {
   }
   otherOpt.style.display = "block";
 }
-
 
 // Function to remove a category
 function removeCategory() {
@@ -118,6 +116,7 @@ function submitExpense(event) {
     }
     expenses.push({ amount, category, date });
     totalExpense = calculateTotalExpense();
+
     updateAmounts();
     updateExpenseTable();
     saveToLocalStorage();
@@ -136,6 +135,7 @@ function updateAmounts() {
   document.querySelector("#totalAmount").value = budget;
   document.querySelector("#remainingAmount").value = budget - totalExpense;
   document.querySelector("#expenseAmount").value = totalExpense;
+  warning();
 }
 
 // Function to update the category dropdown
@@ -172,6 +172,7 @@ function updateExpenseTable(filteredExpenses = expenses) {
       </tr>
     `;
   });
+  warning();
 }
 
 // Function to handle edit operation
@@ -209,7 +210,6 @@ updateBtn.addEventListener("click", function (e) {
   const spendAmount = parseFloat(document.querySelector("#amount").value) || 0;
   const myCategory = document.querySelector("#category").value;
 
-  
   const row = document.querySelector("table tr.editing");
 
   if (!row) {
@@ -217,46 +217,37 @@ updateBtn.addEventListener("click", function (e) {
     return;
   }
 
-  
-  const cells = row.querySelectorAll("td");
-  cells[0].textContent = myDate;
-  cells[1].textContent = spendAmount;
-  cells[2].textContent = myCategory;
-
-  
-  document.querySelector("#date").value = "";
-  document.querySelector("#amount").value = "";
-  document.querySelector("#category").value = "";
-
-  
-  row.classList.remove("editing");
-
-  
-  addBtn.style.display = "block";
-  updateBtn.style.display = "none";
-  otherOpt.style.display = "block";
-
   // Update totalExpense and expenses array
-  totalExpense = totalExpense - parseFloat(cells[1].textContent) + spendAmount;
+  const oldAmount = parseFloat(row.querySelectorAll("td")[1].textContent);
+  const newTotalExpense = totalExpense - oldAmount + spendAmount;
+
+  if (newTotalExpense > budget) {
+    alert("Expense exceeds the budget. Please enter a valid amount.");
+    return;
+  }
+
+  totalExpense = newTotalExpense;
   expenses[row.rowIndex - 1] = {
     amount: spendAmount,
     category: myCategory,
     date: myDate,
   };
 
-  totalExpense = calculateTotalExpense();
-  if (totalExpense > budget) {
-    alert("Expense exceeds the budget. Please enter a valid amount.");
-    return;
-  }
-
   // Recalculate totalExpense and update UI
-  // totalExpense = calculateTotalExpense();
   updateExpenseTable();
   updateAmounts();
   saveToLocalStorage();
-});
 
+  // Clear input fields and remove editing class
+  document.querySelector("#date").value = "";
+  document.querySelector("#amount").value = "";
+  document.querySelector("#category").value = "";
+  row.classList.remove("editing");
+
+  addBtn.style.display = "block";
+  updateBtn.style.display = "none";
+  otherOpt.style.display = "block";
+});
 
 // Function to delete an expense
 function deleteExpense(index) {
@@ -285,6 +276,18 @@ function handleSearch() {
   );
   updateExpenseTable(filteredExpenses);
 }
+
+// Function to update warning based on remaining amount
+function warning() {
+  const remainingAmountElement = document.getElementById("remainingAmount");
+
+  if (remainingAmountElement.value < 100) {
+    remainingAmountElement.classList.add("warningRed");
+  } else {
+    remainingAmountElement.classList.remove("warningRed");
+  }
+}
+
 
 // Function to save data to local storage
 function saveToLocalStorage() {
