@@ -115,7 +115,7 @@ function submitExpense(event) {
       return;
     }
     expenses.push({ amount, category, date });
-    totalExpense = calculateTotalExpense();
+    totalExpense = expenses.reduce((total, expense) => total + expense.amount, 0);
 
     updateAmounts();
     updateExpenseTable();
@@ -258,11 +258,6 @@ function deleteExpense(index) {
     updateExpenseTable();
     saveToLocalStorage();
   }
-}
-
-// Function to calculate total expense
-function calculateTotalExpense() {
-  return expenses.reduce((total, expense) => total + expense.amount, 0);
 }
 
 // Function to handle search input
